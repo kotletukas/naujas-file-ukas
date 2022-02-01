@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WEB</title>
+</head>
+<body>
+
+<h1>Pavadinimas:</h1>
+<p>Tekstas:</p>
+
+</body>
+</html>
