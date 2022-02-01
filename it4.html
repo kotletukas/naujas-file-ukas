@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
+<canvas id="myCanvas2" width="800" height="800" style="border:1px solid #000000;"></canvas>
+<canvas id="myCanvas3" width="800" height="800" style="border:1px solid #000000;"></canvas>
+<input type="number" oninput="spindulys = this.value;">
+<h1>mygtukas kuri paspaudete: <span id="mygtukas"></span></h1>
+<script>
+//Canvas ir javascript sąsaja
+
+
+
+var ctx1 = document.getElementById("myCanvas").getContext("2d");
+var ctx2 = document.getElementById("myCanvas2").getContext("2d");
+var ctx3 = document.getElementById("myCanvas3").getContext("2d");
+
+//Kintamųjų deklaracija
+var spindulys = 50;
+
+//Funkcijos deklaracija. Ši funkcija nubrėžia apskritimą aplink kursorių.
+function veikejas(e) {
+	var x = e.clientX;
+  	var y = e.clientY;
+    ctx1.strokeStyle = "blue";
+    ctx1.lineWidth = 1;
+	ctx1.beginPath();
+    // Kintamąjį "spindulys" galima valdyti per input.
+	ctx1.arc(x, y, spindulys, 0, 2 * Math.PI);
+	ctx1.stroke();
+}
+
+//Nudažo foną rožine spalva
+ctx1.fillStyle = "pink";
+ctx1.fillRect(0, 0, 800, 800);
+
+//Vykdo funkciją "veikėjas", kai pelė pajuda.
+document.addEventListener("mousemove", veikejas);
+
+
+
+
+
+
+
+
+
+//Kintamųjų deklaracija
+var x_coord = 300;
+var y_coord = 300;
+var x_speed = 0;
+var y_speed = 0;
+var spalva = 1;
+
+
+
+
+
+//Kvadrato piešimo funkcijos deklaracija
+function pieskKvadrateli(e) {
+ctx.clearRect(0, 0, 300, 300);
+x_coord += x_speed;
+y_coord += y_speed;
+ctx.fillStyle = 'rgb('+spalva+', 0, 0)';
+ctx.fillRect(x_coord, y_coord, 100, 100);
+spalva = spalva + 1;
+setTimeout(pieskKvadrateli, 30);
+}
+ 
+
+pieskKvadrateli();
+
+ 
+
+function spaustiMygtuka(e) {
+    document.getElementById("mygtukas").innerHTML = e.code;
+    if (e.code == "ArrowDown") {
+        y_speed = 10; 
+    }
+    if (e.code == "ArrowUp") {
+        y_speed = -10;
+    }
+    if (e.code == "ArrowLeft") {
+        x_speed = -10;
+    }
+    if (e.code == "ArrowRight") {
+        x_speed = 10;
+    }
+}
+
+ 
+
+function atleistiMygtuka(e) {
+    document.getElementById("mygtukas").innerHTML = e.code;
+    if (e.code == "ArrowDown") {
+        y_speed = 0; 
+    }
+    if (e.code == "ArrowUp") {
+        y_speed = 0;
+    }
+    if (e.code == "ArrowLeft") {
+        x_speed = 0;
+    }
+    if (e.code == "ArrowRight") {
+        x_speed = 0;
+    }
+}
+
+ 
+
+document.addEventListener("keydown", spaustiMygtuka);
+document.addEventListener("keyup", atleistiMygtuka);
+
+
+
+
+//Kintamųjų deklaracija
+var i = 0;
+var kryptis = 1;
+var greitis = 5;
+var i_vertikaliai = 0;
+var kryptis_vertikaliai = 1;
+var greitis_vertikaliai = 10;
+var raudona = 0;
+var zalia = 0;
+var melyna = 0;
+
+//Kvadrato piešimo funkcijos deklaracija
+function piesk(x, y, width, height) {
+    //ctx3.clearRect(0, 0, 800, 800); //Šita eilutė išvalo visą drobę.
+    melyna = melyna + 1;
+    zalia = zalia + 2;
+    raudona = raudona + 4;
+    if (melyna > 255) melyna = 0;
+    if (zalia > 255) zalia = 0;
+    if (raudona > 255) raudona = 0;
+    ctx3.fillStyle = 'rgb('+raudona+','+zalia+','+melyna+')'; // Nudažys visas būsimas figūras pagal rgb() spalvų sistemą, kur 0 - tamsiausia spalvos vertė, o 255 - ryškiausia spalvos vertė. rgb(0,0,0) yra juoda, o rgb(255,255,255) yra balta. 
+    ctx3.fillRect(x, y, width, height); //Nupiešia kvadratą
+    i = i + kryptis*greitis; //Kiekvieną kartą pakartojant funkciją, i vertė pasikeičia, todėl kvadratėliai brėžiami vis naujoje vietoje.
+    if (i > 700) kryptis = -1; //pakeičia judėjimo kryptį, kai i daugiau nei 700
+    if (i < 100) kryptis = 1; //pakeičia judėjimo kryptį, kai i mažiau nei 100
+    i_vertikaliai = i_vertikaliai + kryptis_vertikaliai*greitis_vertikaliai;
+    if (i_vertikaliai > 700) kryptis_vertikaliai = -1;
+    if (i_vertikaliai < 100) kryptis_vertikaliai = 1;
+	setTimeout(piesk, 10, i, i_vertikaliai, 30, 30); //Pakartoja funkciją iš naujo po 10 milisekundžių (antrasis funkcijos kintamasis nurodo laiką)
+}
+
+ 
+//Nors funkcija pati save paleidžia lygiais laiko intervalais, ją reikia pradėti rankiniu būdu. 
+piesk(i, 50, 30, 30);
+</script>
+
+ 
+</body>
+</html>
